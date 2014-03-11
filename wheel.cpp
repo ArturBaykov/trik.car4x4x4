@@ -1,21 +1,27 @@
 #include <QDebug>
 //#include <QStringList>
 
-#include "car.h"
-#include "motor.h"
+#include "wheel.h"
+#include "trikControl/motor.h"
+#include "trikControl/servoMotor.h"
+#include "trikControl/powerMotor.h"
 
 //#include <cmath>
 
-#define 45gradus 50
-#define 90gradus 100
+#define gradusCircle 50
+#define gradus90 100
 
 
-Wheel::Wheel(Brick brick, WheelType wheelType, QString motor,  QString servomotor, int servomidle):
+
+
+
+
+Wheel::Wheel(Brick& brick, WheelType wheelType, const QString motor, const QString servomotor) :
+    brick(brick),
+    wheelType(wheelType),
+    motor(brick.motor(motor)),
+    servomotor(brick.motor(servomotor))
 {
-    this->brick = brick;
-    this->motor = brick.motor(motor);
-    this->servomotor = brick.motor(servomotor);
-    this->servomidle=servomidle;
 }
 
 Wheel::~Wheel()
@@ -28,26 +34,26 @@ Wheel::~Wheel()
 
 // Управление обычным режимом
 // Повернуть колесо в нормальный режим
-void Wheel::SetGeneralMode()
+void Wheel::WheelSetGeneralMode()
 {
-    servomotor.setPower(servomidle);
+    servomotor->setPower(0);
 }
 // Вперед ехать в нормальном режиме
-void Wheel::GoFront(int power)
+void Wheel::WheelGoFront(int power)
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(power);
+    case FrontLeft:
+        motor->setPower(power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(-power);
+    case FrontRight:
+        motor->setPower(-power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(power);
+    case BackLeft:
+        motor->setPower(power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(-power);
+    case BackRight:
+        motor->setPower(-power);
         break;
     default:
         break;
@@ -55,21 +61,21 @@ void Wheel::GoFront(int power)
     return;
 }
 // Назад ехать в нормальном режиме
-void Wheel::GoBack(int power)
+void Wheel::WheelGoBack(int power)
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(-power);
+    case FrontLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(power);
+    case FrontRight:
+        motor->setPower(power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(-power);
+    case BackLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(power);
+    case BackRight:
+        motor->setPower(power);
         break;
     default:
         break;
@@ -81,21 +87,21 @@ void Wheel::GoBack(int power)
 
 // Управление круговым режимом (машина едет вокруг своей оси)
 // Повернуть колесо в режим кругового поворота
-void Wheel::SetCircleMode()
+void Wheel::WheelSetCircleMode()
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        servomotor.setPower(servomidle+45gradus);
+    case FrontLeft:
+        servomotor->setPower(0+gradusCircle);
         break;
-    case WheelType.FrontRight:
-        servomotor.setPower(servomidle-45gradus);
+    case FrontRight:
+        servomotor->setPower(0-gradusCircle);
         break;
-    case WheelType.BackLeft:
-        servomotor.setPower(servomidle-45gradus);
+    case BackLeft:
+        servomotor->setPower(0-gradusCircle);
         break;
-    case WheelType.BackRight:
-        servomotor.setPower(servomidle+45gradus);
+    case BackRight:
+        servomotor->setPower(0+gradusCircle);
         break;
     default:
         break;
@@ -103,21 +109,21 @@ void Wheel::SetCircleMode()
     return;
 }
 // Поворачивать по часовой стрелке
-void Wheel::GoClockWise(int power)
+void Wheel::WheelGoClockWise(int power)
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(power);
+    case FrontLeft:
+        motor->setPower(power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(power);
+    case FrontRight:
+        motor->setPower(power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(power);
+    case BackLeft:
+        motor->setPower(power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(power);
+    case BackRight:
+        motor->setPower(power);
         break;
     default:
         break;
@@ -125,22 +131,22 @@ void Wheel::GoClockWise(int power)
     return;
 }
 // Поворачивать против часовой стрелки
-void Wheel::GoAntiClockWise(int power)
+void Wheel::WheelGoAntiClockWise(int power)
 {
 
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(-power);
+    case FrontLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(-power);
+    case FrontRight:
+        motor->setPower(-power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(-power);
+    case BackLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(-power);
+    case BackRight:
+        motor->setPower(-power);
         break;
     default:
         break;
@@ -153,21 +159,21 @@ void Wheel::GoAntiClockWise(int power)
 
 // Управление режимом лобстера (машина едет в бок)
 // Повернуть колесо в режим лобстера
-void Wheel::SetLobsterMose()
+void Wheel::WheelSetLobsterMose()
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        servomotor.setPower(servomidle+90gradus);
+    case FrontLeft:
+        servomotor->setPower(0+gradus90);
         break;
-    case WheelType.FrontRight:
-        servomotor.setPower(servomidle-90gradus);
+    case FrontRight:
+        servomotor->setPower(0-gradus90);
         break;
-    case WheelType.BackLeft:
-        servomotor.setPower(servomidle-90gradus);
+    case BackLeft:
+        servomotor->setPower(0-gradus90);
         break;
-    case WheelType.BackRight:
-        servomotor.setPower(servomidle+90gradus);
+    case BackRight:
+        servomotor->setPower(0+gradus90);
         break;
     default:
         break;
@@ -175,21 +181,21 @@ void Wheel::SetLobsterMose()
     return;
 }
 // Вправо поехать в режиме лобстера
-void Wheel::GoRight(int power)
+void Wheel::WheelGoRight(int power)
 {
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(power);
+    case FrontLeft:
+        motor->setPower(power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(power);
+    case FrontRight:
+        motor->setPower(power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(-power);
+    case BackLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(-power);
+    case BackRight:
+        motor->setPower(-power);
         break;
     default:
         break;
@@ -197,22 +203,22 @@ void Wheel::GoRight(int power)
     return;
 }
 // Влево поехать в режиме лобстера
-void Wheel::GoLeft(int power)
+void Wheel::WheelGoLeft(int power)
 {
 
     switch (wheelType)
     {
-    case WheelType.FrontLeft:
-        motor.setPower(-power);
+    case FrontLeft:
+        motor->setPower(-power);
         break;
-    case WheelType.FrontRight:
-        motor.setPower(-power);
+    case FrontRight:
+        motor->setPower(-power);
         break;
-    case WheelType.BackLeft:
-        motor.setPower(power);
+    case BackLeft:
+        motor->setPower(power);
         break;
-    case WheelType.BackRight:
-        motor.setPower(power);
+    case BackRight:
+        motor->setPower(power);
         break;
     default:
         break;

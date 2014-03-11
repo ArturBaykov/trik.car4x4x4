@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QObject>
 #include <QTimer>
 #include <QMatrix3x3>
@@ -8,46 +10,50 @@
 #include <cmath>
 
 #include <trikControl/brick.h>
+#include <trikControl/motor.h>
+
+#include "WheelType.h"
 
 
-enum WheelType{FrontLeft, FrontRight, BackLeft, BackRight};
+using namespace trikControl;
+
+
 class Wheel : public QObject
 {
     Q_OBJECT
 public:
-    explicit Wheel(Brick brick, WheelType wheelType, QString motor,  QString servomotor, int servomidle);
+    explicit Wheel(Brick& brick, WheelType wheelType, const QString motor, const QString servomotor);
     virtual ~Wheel();
 
     WheelType wheelType;
 
     // Управление обычным режимом
-    void SetGeneralMode(); // Повернуть колесо в нормальный режим
-    void GoFront(int power); // Вперед ехать в нормальном режиме
-    void GoBack(int power); // Назад ехать в нормальном режиме
+    void WheelSetGeneralMode(); // Повернуть колесо в нормальный режим
+    void WheelGoFront(int power); // Вперед ехать в нормальном режиме
+    void WheelGoBack(int power); // Назад ехать в нормальном режиме
 
     // Управление круговым режимом (машина едет вокруг своей оси)
-    void SetCircleMode(); // Повернуть колесо в режим кругового поворота
-    void GoClockWise(int power); // Поворачивать по часовой стрелке
-    void GoAntiClockWise(int power); // Поворачивать против часовой стрелки
+    void WheelSetCircleMode(); // Повернуть колесо в режим кругового поворота
+    void WheelGoClockWise(int power); // Поворачивать по часовой стрелке
+    void WheelGoAntiClockWise(int power); // Поворачивать против часовой стрелки
 
     // Управление режимом лобстера (машина едет в бок)
-    void SetLobsterMose(); // Повернуть колесо в режим лобстера
-    void GoRight(int power); // Вправо поехать в режиме лобстера
-    void GoLeft(int power); // Влево поехать в режиме лобстера
+    void WheelSetLobsterMose(); // Повернуть колесо в режим лобстера
+    void WheelGoRight(int power); // Вправо поехать в режиме лобстера
+    void WheelGoLeft(int power); // Влево поехать в режиме лобстера
 
-    void SetCar2x4ModeLeft();
+    //void WheelSetCar2x4ModeLeft();
 
-    void SetCar2x4ModeRight();
+    //void WheelSetCar2x4ModeRight();
 
-    void SetCar4x4ModeLeft();
+    //void WheelSetCar4x4ModeLeft();
 
-    void SetCar4x4ModeRight();
+    //void WheelSetCar4x4ModeRight();
 
 
 
 private:
-    Brick brick;
-    PowerMotor motor;
-    ServoMotor servomotor;
-    int servomidle;
+    Brick& brick;
+    Motor* motor;
+    Motor* servomotor;
 };

@@ -4,7 +4,7 @@ TRIKCONTROL_DIR = ../trikRuntime/trikControl
 QT       += core
 QT       += network
 QT       += gui
-TARGET = car4x4x4-ctrl
+TARGET = trik.car4x4x4
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -26,4 +26,5 @@ SOURCES += main.cpp \
            wheel.cpp
 
 HEADERS += car.h \
-           wheel.h
+           wheel.h\
+           WheelType.h

@@ -1,3 +1,4 @@
+#pragma once
 #include <QObject>
 #include <QTimer>
 #include <QMatrix3x3>
@@ -8,91 +9,63 @@
 #include <cmath>
 
 #include <trikControl/brick.h>
-#include "car.h"
+#include "wheel.h"
+//#include "WheelType.h"
 
 using namespace trikControl;
 
-class Car4x4x4Robot : public QObject
+/*enum CarMode
+{
+    General,        // Обычный режим
+    Circle,         // Круговой режим (машина едет вокруг своей оси)
+    Lobster,        // Режим Лобстера (машина едет в бок)
+    Car2x4Left,     // Режим "Машина повернула передними колесами влево"
+    Car2x4Right,    // Режим "Машина повернула передними колесами вправо"
+    Car4x4Left,     // Режим "Машина повернула передними колесами влево, задние вправо"
+    Car4x4Right,    // Режим "Машина повернула передними колесами вправо, задние влево"
+
+    NotCurrent      // Вращение колес свободное
+};
+*/
+
+class CarPlatform : public QObject
 {
     Q_OBJECT
 public:
-    explicit OmniRobot(QThread *guiThread, QString configPath);
-    virtual ~OmniRobot();
+    explicit CarPlatform(Brick& brick);
+    virtual ~CarPlatform();
 
-protected:
-    void init();
-    void brickPower();
-    void startControl();
-    void androidmode();
-    void lineTracerMode();
-    QVector3D strafe(qreal x);
-    QVector3D rotate(qreal angle);
-    QVector3D velocity(qreal y);
-    void rotateAtTargetAngle();
+    //CarMode CurrentCarMode;
 
-signals:
-  void hsvCmdParsed(QString cmd);
-  void detectComandSended(QString cmd);
-public slots:
+    // Управление обычным режимом
+    void SetGeneralMode(); // Повернуть колесо в нормальный режим
+    void GoFront(int power); // Вперед ехать в нормальном режиме
+    void GoBack(int power); // Назад ехать в нормальном режиме
 
-private slots:
-  void getButton(int code, int value);
-  void gamepadButton(int button, int pressed);
-  void omniControl();
-  void gamepadPad(int pad, int vx, int vy);
-  void gamepadPadUp(int pad);
-  void parseLogFifo(QString logData);
-//  void accumGyroError(); //there is no gyroError now!
+    // Управление круговым режимом (машина едет вокруг своей оси)
+    void SetCircleMode(); // Повернуть колесо в режим кругового поворота
+    void GoClockWise(int power); // Поворачивать по часовой стрелке
+    void GoAntiClockWise(int power); // Поворачивать против часовой стрелки
+
+    // Управление режимом лобстера (машина едет в бок)
+    void SetLobsterMose(); // Повернуть колесо в режим лобстера
+    void GoRight(int power); // Вправо поехать в режиме лобстера
+    void GoLeft(int power); // Влево поехать в режиме лобстера
+
+    //void SetCar2x4LeftMode();
+
+    //void SetCar2x4RightMode();
+
+    //void SetCar4x4LeftMode();
+
+    //void SetCar4x4RightMode();
+
+
 
 private:
-    int period;
-    enum { INIT_MODE,
-           CONTROL_MODE
-    } omniState;
-
-    enum { ANDROID_MODE,
-           LINE_TRACE_MODE,
-           ROTATE_MODE,
-           ROTATE_MAX_MODE,
-           ROTATE_POINT_MODE
-    } movementMode;
-
-    Brick   brick;
-    QTimer  timer;
-    logFifo m_logFifo;
-    cmdFifo m_cmdFifo;
-
-    qreal Dw;
-    qreal xw;
-    qreal yw;
-
-    float gyroLast;
-    float alpha;
-    float targetAngle;
-    float rotateSpeed;
-
-    QMatrix3x3 Mt;
-    QVector3D cmd;
-    QVector3D pwm;
-
-    //target location data
-    int m_tgtX;
-    int m_prevTgtX;
-    int m_tgtY;
-    int m_tgtMass;
-
-    //target HSV data
-    int m_hue;
-    int m_hueTol;
-    int m_sat;
-    int m_satTol;
-    int m_val;
-    int m_valTol;
-
-    QStringList m_logStruct;
-    //matrix<float> Rot;
-    //vector<float> cmd;
-    //vector<float> pwm;
-    //vector<float> mov;
+    Brick& brick;
+    Wheel wheelFrontLeft;
+    Wheel wheelFrontRight;
+    Wheel wheelBackLeft;
+    Wheel wheelBackRight;
 };
-
