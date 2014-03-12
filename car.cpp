@@ -127,6 +127,39 @@ void CarPlatform::GoLeft(int power)
 //---------------------------------------------------------------------------------------
 
 
+void CarPlatform::SetCar2x4LeftMode(int ugol)
+{
+    wheelFrontLeft.WheelSetCar2x4ModeLeft(ugol);
+    wheelFrontRight.WheelSetCar2x4ModeLeft(ugol);
+    wheelBackLeft.WheelSetCar2x4ModeLeft(ugol);
+    wheelBackRight.WheelSetCar2x4ModeLeft(ugol);
+    return;
+}
 
+void CarPlatform::SetCar2x4RightMode(int ugol)
+{
+    wheelFrontLeft.WheelSetCar2x4ModeRight(ugol);
+    wheelFrontRight.WheelSetCar2x4ModeRight(ugol);
+    wheelBackLeft.WheelSetCar2x4ModeRight(ugol);
+    wheelBackRight.WheelSetCar2x4ModeRight(ugol);
+    return;
+}
 
+void CarPlatform::SetCar4x4LeftMode(int ugol)
+{
+    wheelFrontLeft.WheelSetCar4x4ModeLeft(ugol);
+    wheelFrontRight.WheelSetCar4x4ModeLeft(ugol);
+    wheelBackLeft.WheelSetCar4x4ModeLeft(ugol);
+    wheelBackRight.WheelSetCar4x4ModeLeft(ugol);
+    return;
+}
+
+void CarPlatform::SetCar4x4RightMode(int ugol)
+{
+    wheelFrontLeft.WheelSetCar4x4ModeRight(ugol);
+    wheelFrontRight.WheelSetCar4x4ModeRight(ugol);
+    wheelBackLeft.WheelSetCar4x4ModeRight(ugol);
+    wheelBackRight.WheelSetCar4x4ModeRight(ugol);
+    return;
+}
 

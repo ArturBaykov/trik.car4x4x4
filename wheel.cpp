@@ -229,5 +229,95 @@ void Wheel::WheelGoLeft(int power)
 
 
 
+void Wheel::WheelSetCar2x4ModeLeft(int ugol)
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0-ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0-ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0);
+        break;
+    case BackRight:
+        servomotor->setPower(0);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
+void Wheel::WheelSetCar2x4ModeRight(int ugol)
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0+ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0+ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0);
+        break;
+    case BackRight:
+        servomotor->setPower(0);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
+
+void Wheel::WheelSetCar4x4ModeLeft(int ugol)
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0-ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0-ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0+ugol);
+        break;
+    case BackRight:
+        servomotor->setPower(0+ugol);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
+
+
+void Wheel::WheelSetCar4x4ModeRight(int ugol)
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0+ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0+ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0-ugol);
+        break;
+    case BackRight:
+        servomotor->setPower(0-ugol);
+        break;
+    default:
+        break;
+    }
+    return;
+}
 
 

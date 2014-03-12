@@ -6,7 +6,8 @@
 #include <QTextStream>
 
 //#include "fifo.h"
-#include "car.h"
+//#include "car.h"
+#include "linetracer.h"
 #include <trikControl/brick.h>
 
 const QString FrontLeftMotorName = "JM3";
@@ -26,85 +27,11 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     Brick localbrick(*(app.thread()), "./");
-    CarPlatform car(localbrick);
-
-
-
-
- /*   qDebug()<< "ping1";
-    localbrick.motor(FrontLeftMotorName)->setPower(100);
-    localbrick.motor(FrontRightMotorName)->setPower(100);
-    localbrick.motor(BackLeftMotorName)->setPower(100);
-    localbrick.motor(BackRightMotorName)->setPower(100);
-
-    qDebug()<< "ping2";
-
-    QTimer* qtimer = new QTimer();
-    qtimer->setInterval(2000);
-    qtimer->start;
-
-
-    qDebug()<< "ping3";
-    localbrick.motor(FrontLeftMotorName)->setPower(0);
-    localbrick.motor(FrontRightMotorName)->setPower(0);
-    localbrick.motor(BackLeftMotorName)->setPower(0);
-    localbrick.motor(BackRightMotorName)->setPower(0);
-
-
-    qDebug()<< "ping4";
-    localbrick.motor(FrontLeftServomotorName)->setPower(50);
-    localbrick.motor(FrontRightServomotorName)->setPower(-50);
-    localbrick.motor(BackLeftServomotorName)->setPower(-50);
-    localbrick.motor(BackRightServomotorName)->setPower(50);
-
-    qDebug()<< "ping5";
-    delay();
-
-    qDebug()<< "ping6";
-    localbrick.motor(FrontLeftServomotorName)->setPower(0);
-    localbrick.motor(FrontRightServomotorName)->setPower(0);
-    localbrick.motor(BackLeftServomotorName)->setPower(0);
-    localbrick.motor(BackRightServomotorName)->setPower(0);
-    delay();
-    localbrick.motor(FrontLeftServomotorName)->setPower(-50);
-    localbrick.motor(FrontRightServomotorName)->setPower(-50);
-    localbrick.motor(BackLeftServomotorName)->setPower(-50);
-    localbrick.motor(BackRightServomotorName)->setPower(-50);
-    delay();
-    localbrick.motor(FrontLeftServomotorName)->setPower(0);
-    localbrick.motor(FrontRightServomotorName)->setPower(0);
-    localbrick.motor(BackLeftServomotorName)->setPower(0);
-    localbrick.motor(BackRightServomotorName)->setPower(0);
-    delay();
-*/
-    /*
-    car.SetGeneralMode();
-    sleep(3000);
-    car.SetCircleMode();
-    sleep(3000);
-    car.SetLobsterMose();
-    sleep(3000);
-    car.SetGeneralMode();
-    */
-    //car.SetGeneralMode();
-
+    //CarPlatform car(localbrick);
     QTextStream streamIn(stdin);
-/*
-    streamIn.readLine();
-    qDebug()<< "FrontLeftServomotorName";
-    localbrick.motor(FrontLeftServomotorName)->setPower(0);
-    streamIn.readLine();
-    qDebug()<< "FrontRightServomotorName";
-    localbrick.motor(FrontRightServomotorName)->setPower(0);
-    streamIn.readLine();
-    qDebug()<< "BackLeftServomotorName";
-    localbrick.motor(BackLeftServomotorName)->setPower(0);
-    streamIn.readLine();
-    qDebug()<< "BackRightServomotorName";
-    localbrick.motor(BackRightServomotorName)->setPower(0);
-*/
 
-    streamIn.readLine();
+
+ /*   streamIn.readLine();
     qDebug()  <<"SetGeneralMode and go";
     car.SetGeneralMode();
     car.GoFront(100);
@@ -152,8 +79,135 @@ int main(int argc, char *argv[])
     streamIn.readLine();
     qDebug()  <<"SetCircleMode";
     car.SetCircleMode();
+*/
+
+/////////////////////////
+    car.GoFront(100);
+//////////////////////////////////////////////////////////////
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(0)";
+    car.SetCar2x4LeftMode(0);
 
     streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(10)";
+    car.SetCar2x4LeftMode(10);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(20)";
+    car.SetCar2x4LeftMode(20);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(30)";
+    car.SetCar2x4LeftMode(30);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(35)";
+    car.SetCar2x4LeftMode(35);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(40)";
+    car.SetCar2x4LeftMode(40);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4LeftMode(45)";
+    car.SetCar2x4LeftMode(45);
+
+    streamIn.readLine();
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(0)";
+    car.SetCar2x4RightMode(0);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(10)";
+    car.SetCar2x4RightMode(10);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(20)";
+    car.SetCar2x4RightMode(20);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(30)";
+    car.SetCar2x4RightMode(30);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(35)";
+    car.SetCar2x4RightMode(35);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(40)";
+    car.SetCar2x4RightMode(40);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar2x4RightMode(45)";
+    car.SetCar2x4RightMode(45);
+
+    streamIn.readLine();
+
+    streamIn.readLine();
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(0)";
+    car.SetCar4x4RightMode(0);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(10)";
+    car.SetCar4x4RightMode(10);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(20)";
+    car.SetCar4x4RightMode(20);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(30)";
+    car.SetCar4x4RightMode(30);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(35)";
+    car.SetCar4x4RightMode(35);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(40)";
+    car.SetCar4x4RightMode(40);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4RightMode(45)";
+    car.SetCar4x4RightMode(45);
+
+    streamIn.readLine();
+
+    streamIn.readLine();
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(0)";
+    car.SetCar4x4LeftMode(0);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(10)";
+    car.SetCar4x4LeftMode(10);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(20)";
+    car.SetCar4x4LeftMode(20);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(30)";
+    car.SetCar4x4LeftMode(30);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(35)";
+    car.SetCar4x4LeftMode(35);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(40)";
+    car.SetCar4x4LeftMode(40);
+
+    streamIn.readLine();
+    qDebug()  <<"SetCar4x4LeftMode(45)";
+    car.SetCar4x4LeftMode(45);
+
+    streamIn.readLine();
+
 
     return 0;
 }

@@ -52,13 +52,13 @@ public:
     void GoRight(int power); // Вправо поехать в режиме лобстера
     void GoLeft(int power); // Влево поехать в режиме лобстера
 
-    //void SetCar2x4LeftMode();
+    void SetCar2x4LeftMode(int ugol);
 
-    //void SetCar2x4RightMode();
+    void SetCar2x4RightMode(int ugol);
 
-    //void SetCar4x4LeftMode();
+    void SetCar4x4LeftMode(int ugol);
 
-    //void SetCar4x4RightMode();
+    void SetCar4x4RightMode(int ugol);
 
 
 
