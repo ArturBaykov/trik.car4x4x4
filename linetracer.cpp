@@ -3,7 +3,7 @@
 #include "linetracer.h"
 
 const QString logFifoPath="/tmp/dsp-detector.out.fifo";
-//const QString cmdFifoPath="/tmp/dsp-detector.in.fifo";
+const QString cmdFifoPath="/tmp/dsp-detector.in.fifo";
 
 const int speed = 100;
 const qreal stopK = 1;
@@ -12,123 +12,37 @@ const qreal IK = 0.006;
 const qreal DK = -0.009;
 const qreal encC = 1/(334*34); //1 : (num of points of encoder wheel * reductor ratio)
 
-Linetracer::Linetracer(Brick& brick):
+Linetracer::Linetracer(CarPlatform& carPlatform):
   m_logFifo(logFifoPath),
-  //m_cmdFifo(cmdFifoPath),
-  m_brick(brick),
-  car(brick)
-  //m_motorControllerL(m_brick, "JM1", "JB4"),
-  //m_motorControllerR(m_brick, "JM3", "JB3"),
-  //m_motorsWorkerThread()
+  m_cmdFifo(cmdFifoPath),
+  m_carPlatform (carPlatform)
 {
-  m_logFifo.open();
-  //m_cmdFifo.open();
-
+    m_logFifo.open();
+    m_cmdFifo.open();
+    setLineColorData(0, 179, 50,50,30,30);
 
   qDebug() << "LINETRACER_STARTS";
-  connect(&m_logFifo, SIGNAL(lineColorDataParsed(int, int, int, int, int, int)),  
-          this, SLOT(setLineColorData(int, int, int, int, int, int)));
-  //connect(m_brick.gamepad(), SIGNAL(button(int,int)),        this, SLOT(onGamepadButtonChanged(int, int)));
-  connect(m_brick.keys(),    SIGNAL(buttonPressed(int,int)), this, SLOT(onBrickButtonChanged(int,int)));
-
-  m_motorControllerL.moveToThread(&m_motorsWorkerThread);
-  m_motorControllerR.moveToThread(&m_motorsWorkerThread);
-
-  m_motorControllerL.startAutoControl();
-  m_motorControllerR.startAutoControl();
-
-  m_motorsWorkerThread.start();
-//init state is MANUAL_MODE:
-  manualMode();
+  connect(&m_logFifo, SIGNAL(lineTargetDataParsed(int, int, int)), this, SLOT(setLineTargetData(int, int, int)));
 }
 
 Linetracer::~Linetracer()
 {
-  m_motorControllerL.stopAutoControl();
-  m_motorControllerR.stopAutoControl();
-
-  m_motorsWorkerThread.quit();
-  m_motorsWorkerThread.wait();
 }
 
-void Linetracer::manualMode()
+int Linetracer::Regulator(int x)
 {
-  movementMode = MANUAL_MODE;
-  qDebug() << "MANUAL_MODE";
+    //range -100..0..100
+    //       -40..0..40
 
-  disconnect(&m_logFifo, SIGNAL(lineTargetDataParsed(int, int, int)), this, SLOT(setLineTargetData(int, int, int)));
-  m_motorControllerL.setActualSpeed(0);
-  m_motorControllerR.setActualSpeed(0);
-
-  connect(m_brick.gamepad(), SIGNAL(pad(int,int,int)), this, SLOT(onGamepadPadDown(int,int,int)));
-  connect(m_brick.gamepad(), SIGNAL(padUp(int)),       this, SLOT(onGamepadPadUp(int)));
-}
-
-void Linetracer::linetraceMode()
-{
-  qDebug() << "LINETRACE_MODE";
-  movementMode = LINETRACE_MODE;
-
-  connect(&m_logFifo, SIGNAL(lineTargetDataParsed(int, int, int)), this, SLOT(setLineTargetData(int, int, int)));
-  disconnect(m_brick.gamepad(), SIGNAL(pad(int,int,int)), this, SLOT(onGamepadPadDown(int,int,int)));
-  disconnect(m_brick.gamepad(), SIGNAL(padUp(int)),       this, SLOT(onGamepadPadUp(int)));
-}
-
-void Linetracer::onGamepadPadDown(int padNum, int vx, int vy)
-{
-  if (padNum != 1) return;
-
-  m_motorControllerL.setActualSpeed(-vy+vx);
-  m_motorControllerR.setActualSpeed(vy-vx);
-}
-
-void Linetracer::onGamepadPadUp(int padNum)
-{
-  if (padNum != 1) return;
-
-  m_motorControllerL.setActualSpeed(0);
-  m_motorControllerR.setActualSpeed(0);
-}
-
-void Linetracer::onGamepadButtonChanged(int buttonNum, int state)
-{
-  if (state == 0) return; //in case of
-  
-  switch (buttonNum)
-  {
-    case 1: 
-      if(movementMode != MANUAL_MODE)
-      {
-        manualMode();
-      }
-      break;
-    case 2: 
-      if(movementMode != LINETRACE_MODE )
-      {
-        linetraceMode();
-      }
-      break;
-  }
-}
-
-void Linetracer::onBrickButtonChanged(int buttonCode, int state)
-{
-  if (state == 0) return;
-
-  switch (buttonCode)
-  {
-    case 28:  
-      m_cmdFifo.write("detect\n");
-      break;
-    case 105:  
-      if(movementMode != LINETRACE_MODE)
-      {
-        linetraceMode();
-        break;
-      } 
-    default:
-      manualMode();
-  }
+    if (x>70)
+    {
+        return 38;
+    }
+    if (x<-70)
+    {
+        return -38;
+    }
+    return x/(100/40);
 }
 
 void Linetracer::setLineColorData(int hue, int hueTol, int sat, int satTol, int val, int valTol)
@@ -145,13 +59,57 @@ void Linetracer::setLineColorData(int hue, int hueTol, int sat, int satTol, int 
 
 void Linetracer::setLineTargetData(int x, int angle, int mass)
 {
-//  qDebug("line x, angle: %d, %d", x, angle);
-  m_prevTgtX = m_tgtX;
-  m_tgtX     = x;
-  m_tgtAngle = angle;
-  m_tgtMass  = mass;
+  qDebug("line x, angle, mass: %d, %d, %d", x, angle, mass);
 
-  m_motorControllerL.setActualSpeed(x);
-  m_motorControllerR.setActualSpeed(x);
+    if (mass>=1)
+    {
+        if (x>0)
+        {
+            if (x<50)
+            {
+                m_carPlatform.SetCar2x4RightMode(Regulator(x));
+                m_CarMode = cmCar2x4Right;
+            }
+            else
+            {
+                m_carPlatform.SetCar4x4RightMode(Regulator(x));
+                m_CarMode = cmCar4x4Right;
+            }
+        }
+        else
+        {
+
+            if (x>-50)
+            {
+                m_carPlatform.SetCar2x4LeftMode(Regulator(-x));
+                m_CarMode = cmCar2x4Left;
+            }
+            else
+            {
+                m_carPlatform.SetCar4x4LeftMode(Regulator(-x));
+                m_CarMode = cmCar4x4Left;
+            }
+        }
+
+        m_carPlatform.GoFront(100);
+    }
+    else
+    {
+        if (m_CarMode == cmCar2x4Left || m_CarMode == cmCar4x4Left)
+        {
+            m_carPlatform.StopMotors();
+            m_carPlatform.SetCircleMode();
+            m_carPlatform.GoAntiClockWise(100);
+            m_CarMode = cmCircle;
+        }
+        if (m_CarMode == cmCar2x4Right || m_CarMode == cmCar4x4Right)
+        {
+            m_carPlatform.StopMotors();
+            m_carPlatform.SetCircleMode();
+            m_carPlatform.GoClockWise(100);
+            m_CarMode = cmCircle;
+        }
+    }
+
 }
 

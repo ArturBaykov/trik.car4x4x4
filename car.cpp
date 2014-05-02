@@ -31,6 +31,26 @@ CarPlatform::~CarPlatform()
   //disconnect(&m_logFifo, SIGNAL(fifoRead(QString)), this, SLOT(parseLogFifo(QString)));
 }
 
+
+void CarPlatform::StopMotors()
+{
+    wheelFrontLeft.StopMotors();
+    wheelFrontRight.StopMotors();
+    wheelBackLeft.StopMotors();
+    wheelBackRight.StopMotors();
+    return;
+}
+
+void CarPlatform::StopServoMotors()
+{
+    wheelFrontLeft.StopServoMotors();
+    wheelFrontRight.StopServoMotors();
+    wheelBackLeft.StopServoMotors();
+    wheelBackRight.StopServoMotors();
+    CurrentCarMode = cmNotCurrent;
+    return;
+}
+
 //---------------------------------------------------------------------------------------
 
 
@@ -42,24 +62,32 @@ void CarPlatform::SetGeneralMode()
     wheelFrontRight.WheelSetGeneralMode();
     wheelBackLeft.WheelSetGeneralMode();
     wheelBackRight.WheelSetGeneralMode();
+    CurrentCarMode = cmGeneral;
     return;
 }
 // Вперед ехать в нормальном режиме
 void CarPlatform::GoFront(int power)
 {
-    wheelFrontLeft.WheelGoFront(power);
-    wheelFrontRight.WheelGoFront(power);
-    wheelBackLeft.WheelGoFront(power);
-    wheelBackRight.WheelGoFront(power);
+    //if (CurrentCarMode ==cmGeneral)
+    //{
+        wheelFrontLeft.WheelGoFront(power);
+        wheelFrontRight.WheelGoFront(power);
+        wheelBackLeft.WheelGoFront(power);
+        wheelBackRight.WheelGoFront(power);
+    //}
+
     return;
 }
 // Назад ехать в нормальном режиме
 void CarPlatform::GoBack(int power)
 {
-    wheelFrontLeft.WheelGoBack(power);
-    wheelFrontRight.WheelGoBack(power);
-    wheelBackLeft.WheelGoBack(power);
-    wheelBackRight.WheelGoBack(power);
+    //if (CurrentCarMode ==cmGeneral)
+    //{
+        wheelFrontLeft.WheelGoBack(power);
+        wheelFrontRight.WheelGoBack(power);
+        wheelBackLeft.WheelGoBack(power);
+        wheelBackRight.WheelGoBack(power);
+    //}
     return;
 }
 //---------------------------------------------------------------------------------------
@@ -73,24 +101,31 @@ void CarPlatform::SetCircleMode()
     wheelFrontRight.WheelSetCircleMode();
     wheelBackLeft.WheelSetCircleMode();
     wheelBackRight.WheelSetCircleMode();
+    CurrentCarMode =cmCircle;
     return;
 }
 // Поворачивать по часовой стрелке
 void CarPlatform::GoClockWise(int power)
 {
-    wheelFrontLeft.WheelGoClockWise(power);
-    wheelFrontRight.WheelGoClockWise(power);
-    wheelBackLeft.WheelGoClockWise(power);
-    wheelBackRight.WheelGoClockWise(power);
+    if (CurrentCarMode ==cmCircle)
+    {
+        wheelFrontLeft.WheelGoClockWise(power);
+        wheelFrontRight.WheelGoClockWise(power);
+        wheelBackLeft.WheelGoClockWise(power);
+        wheelBackRight.WheelGoClockWise(power);
+    }
     return;
 }
 // Поворачивать против часовой стрелки
 void CarPlatform::GoAntiClockWise(int power)
 {
-    wheelFrontLeft.WheelGoAntiClockWise(power);
-    wheelFrontRight.WheelGoAntiClockWise(power);
-    wheelBackLeft.WheelGoAntiClockWise(power);
-    wheelBackRight.WheelGoAntiClockWise(power);
+    if (CurrentCarMode ==cmCircle)
+    {
+        wheelFrontLeft.WheelGoAntiClockWise(power);
+        wheelFrontRight.WheelGoAntiClockWise(power);
+        wheelBackLeft.WheelGoAntiClockWise(power);
+        wheelBackRight.WheelGoAntiClockWise(power);
+    }
     return;
 }
 //---------------------------------------------------------------------------------------
@@ -98,33 +133,60 @@ void CarPlatform::GoAntiClockWise(int power)
 
 // Управление режимом лобстера (машина едет в бок)
 // Повернуть колесо в режим лобстера
-void CarPlatform::SetLobsterMose()
+void CarPlatform::SetLobsterMode()
 {
     wheelFrontLeft.WheelSetLobsterMose();
     wheelFrontRight.WheelSetLobsterMose();
     wheelBackLeft.WheelSetLobsterMose();
     wheelBackRight.WheelSetLobsterMose();
+    CurrentCarMode = cmLobster;
     return;
 }
 // Вправо поехать в режиме лобстера
 void CarPlatform::GoRight(int power)
 {
-    wheelFrontLeft.WheelGoRight(power);
-    wheelFrontRight.WheelGoRight(power);
-    wheelBackLeft.WheelGoRight(power);
-    wheelBackRight.WheelGoRight(power);
+    if (CurrentCarMode == cmLobster)
+    {
+        wheelFrontLeft.WheelGoRight(power);
+        wheelFrontRight.WheelGoRight(power);
+        wheelBackLeft.WheelGoRight(power);
+        wheelBackRight.WheelGoRight(power);
+    }
     return;
 }
 // Влево поехать в режиме лобстера
 void CarPlatform::GoLeft(int power)
 {
-    wheelFrontLeft.WheelGoLeft(power);
-    wheelFrontRight.WheelGoLeft(power);
-    wheelBackLeft.WheelGoLeft(power);
-    wheelBackRight.WheelGoLeft(power);
+    if (CurrentCarMode == cmLobster)
+    {
+        wheelFrontLeft.WheelGoLeft(power);
+        wheelFrontRight.WheelGoLeft(power);
+        wheelBackLeft.WheelGoLeft(power);
+        wheelBackRight.WheelGoLeft(power);
+    }
     return;
 }
 //---------------------------------------------------------------------------------------
+
+
+
+void CarPlatform::SetParallelModeLeft(int ugol)
+{
+    wheelFrontLeft.WheelSetParallelModeLeft(ugol);
+    wheelFrontRight.WheelSetParallelModeLeft(ugol);
+    wheelBackLeft.WheelSetParallelModeLeft(ugol);
+    wheelBackRight.WheelSetParallelModeLeft(ugol);
+    return;
+}
+
+void CarPlatform::SetParallelModeRight(int ugol)
+{
+    wheelFrontLeft.WheelSetParallelModeRight(ugol);
+    wheelFrontRight.WheelSetParallelModeRight(ugol);
+    wheelBackLeft.WheelSetParallelModeRight(ugol);
+    wheelBackRight.WheelSetParallelModeRight(ugol);
+    return;
+}
 
 
 void CarPlatform::SetCar2x4LeftMode(int ugol)

@@ -27,6 +27,9 @@ public:
 
     WheelType wheelType;
 
+    void StopMotors();
+    void StopServoMotors();
+
     // Управление обычным режимом
     void WheelSetGeneralMode(); // Повернуть колесо в нормальный режим
     void WheelGoFront(int power); // Вперед ехать в нормальном режиме
@@ -41,6 +44,11 @@ public:
     void WheelSetLobsterMose(); // Повернуть колесо в режим лобстера
     void WheelGoRight(int power); // Вправо поехать в режиме лобстера
     void WheelGoLeft(int power); // Влево поехать в режиме лобстера
+
+    void WheelSetParallelModeLeft(int ugol);
+
+    void WheelSetParallelModeRight(int ugol);
+
 
     void WheelSetCar2x4ModeLeft(int ugol);
 

@@ -2,11 +2,11 @@
 
 #include <QObject>
 
-#include <QtCore/QSharedPointer>
+#include <QSharedPointer>
 
-#include <trikControl/brick.h>
+#include <QSocketNotifier>
 
-using namespace trikControl;
+//using namespace trikControl;
 
 class LogFifo : public QObject
 {

@@ -22,13 +22,19 @@ LIBS += -L$$TRIKCONTROL_BINDIR -ltrikControl
 }
 
 SOURCES += main.cpp \
+           gamepadrobot.cpp\
            car.cpp \
            wheel.cpp \
            log_fifo.cpp \
+           cmd_fifo.cpp \
            linetracer.cpp
 
+
+
 HEADERS += car.h \
+           gamepadrobot.h \
            wheel.h\
            WheelType.h \
            log_fifo.h \
+           cmd_fifo.h \
            linetracer.h

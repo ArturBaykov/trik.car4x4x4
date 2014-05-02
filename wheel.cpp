@@ -29,6 +29,16 @@ Wheel::~Wheel()
   //disconnect(&m_logFifo, SIGNAL(fifoRead(QString)), this, SLOT(parseLogFifo(QString)));
 }
 
+void Wheel::StopServoMotors()
+{
+    servomotor->powerOff();
+}
+
+void Wheel::StopMotors()
+{
+    motor->powerOff();
+}
+
 //---------------------------------------------------------------------------------------
 
 
@@ -226,6 +236,56 @@ void Wheel::WheelGoLeft(int power)
     return;
 }
 //---------------------------------------------------------------------------------------
+
+
+void Wheel::WheelSetParallelModeLeft(int ugol)
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0-ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0-ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0-ugol);
+        break;
+    case BackRight:
+        servomotor->setPower(0-ugol);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
+void Wheel::WheelSetParallelModeRight(int ugol)
+{
+
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0+ugol);
+        break;
+    case FrontRight:
+        servomotor->setPower(0+ugol);
+        break;
+    case BackLeft:
+        servomotor->setPower(0+ugol);
+        break;
+    case BackRight:
+        servomotor->setPower(0+ugol);
+        break;
+    default:
+        break;
+    }
+    return;
+
+
+
+}
+
 
 
 
