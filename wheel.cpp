@@ -3,8 +3,8 @@
 
 #include "wheel.h"
 #include "trikControl/motor.h"
-#include "trikControl/servoMotor.h"
-#include "trikControl/powerMotor.h"
+//#include "trikControl/servoMotor.h"
+//#include "trikControl/powerMotor.h"
 
 //#include <cmath>
 
