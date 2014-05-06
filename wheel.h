@@ -46,18 +46,16 @@ public:
     void WheelGoLeft(int power); // Влево поехать в режиме лобстера
 
     void WheelSetParallelModeLeft(int ugol);
-
     void WheelSetParallelModeRight(int ugol);
 
-
     void WheelSetCar2x4ModeLeft(int ugol);
-
     void WheelSetCar2x4ModeRight(int ugol);
 
     void WheelSetCar4x4ModeLeft(int ugol);
-
     void WheelSetCar4x4ModeRight(int ugol);
 
+    void WheelSetTornadoTopMode();
+    void WheelSetTornadoBottomMode();
 
 
 private:

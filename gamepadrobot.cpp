@@ -52,18 +52,17 @@ void GamePadRobot::ChangeMod(int button, int pressed)
             carPlatform.SetLobsterMode();
             break;
         case 4:
-            mode = Car2x4;
-            qDebug() << "Car2x4 mode";
-            carPlatform.SetCar2x4LeftMode(0);
+            mode = TornadoTopMode;
+            qDebug() << "Tornado Top Mode";
+            carPlatform.SetTornadoTopMode();
             break;
         case 5:
-            mode = Car4x4;
-            carPlatform.SetCar4x4LeftMode(0);
-            qDebug() << "Car4x4 mode";
+            mode = NotCurrent;
+            carPlatform.StopMotors();
+            carPlatform.StopServoMotors();
+            qDebug() << "Not Current mode";
             break;
    }
-
-
    return;
 }
 
@@ -123,27 +122,24 @@ void GamePadRobot::GamepadPad(int pad, int x, int y)
             return;
         }
         break;
-    case Car2x4:
+    case TornadoTopMode:
         if (pad == 1)
         {
-            carPlatform.SetCar2x4RightMode(Rangeint(x));
             return;
         }
         if (pad == 2)
         {
-            carPlatform.GoFront(y);
+            carPlatform.GoAntiClocktTornadoTop(x);
             return;
         }
         break;
-    case Car4x4:
+    case NotCurrent:
         if (pad == 1)
         {
-            carPlatform.SetCar4x4RightMode(Rangeint(x));
             return;
         }
         if (pad == 2)
         {
-            carPlatform.GoFront(y);
             return;
         }
         break;
@@ -166,12 +162,12 @@ void GamePadRobot::GamepadPadUp(int pad)
         case Lobster:
             return;
             break;
-        case Car2x4:
-            carPlatform.SetCar2x4RightMode(0);
+        case TornadoTopMode:
+            //carPlatform.SetCar2x4RightMode(0);
             return;
             break;
-        case Car4x4:
-            carPlatform.SetCar2x4RightMode(0);
+        case NotCurrent:
+            //carPlatform.SetCar2x4RightMode(0);
             return;
             break;
         }

@@ -23,6 +23,8 @@ enum CarMode
     cmCar2x4Right,    // Режим "Машина повернула передними колесами вправо"
     cmCar4x4Left,     // Режим "Машина повернула передними колесами влево, задние вправо"
     cmCar4x4Right,    // Режим "Машина повернула передними колесами вправо, задние влево"
+    cmTornadoTopMode,
+    cmTornadoBottomMode,
 
     cmNotCurrent      // Вращение колес свободное
 };
@@ -58,16 +60,21 @@ public:
 
 
     void SetParallelModeLeft(int ugol);
-
     void SetParallelModeRight(int ugol);
 
     void SetCar2x4LeftMode(int ugol);
-
     void SetCar2x4RightMode(int ugol);
 
     void SetCar4x4LeftMode(int ugol);
-
     void SetCar4x4RightMode(int ugol);
+
+    void SetTornadoTopMode();
+    void SetTornadoBottomMode();
+
+    void GoClockTornadoTop(int power);
+    void GoAntiClocktTornadoTop(int power);
+    void GoAntiClockTornadoBottom(int power);
+    void GoClockTornadoBottom(int power);
 
 
 

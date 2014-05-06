@@ -10,6 +10,7 @@
 
 #define gradusCircle 50
 #define gradus90 100
+#define gradusTornado 75
 
 
 
@@ -379,5 +380,53 @@ void Wheel::WheelSetCar4x4ModeRight(int ugol)
     }
     return;
 }
+
+
+
+
+void Wheel::WheelSetTornadoTopMode()
+{
+
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0);
+        break;
+    case FrontRight:
+        servomotor->setPower(0);
+        break;
+    case BackLeft:
+        servomotor->setPower(0-gradusTornado);
+        break;
+    case BackRight:
+        servomotor->setPower(0+gradusTornado);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+void Wheel::WheelSetTornadoBottomMode()
+{
+    switch (wheelType)
+    {
+    case FrontLeft:
+        servomotor->setPower(0+gradusTornado);
+        break;
+    case FrontRight:
+        servomotor->setPower(0-gradusTornado);
+        break;
+    case BackLeft:
+        servomotor->setPower(0);
+        break;
+    case BackRight:
+        servomotor->setPower(0);
+        break;
+    default:
+        break;
+    }
+    return;
+}
+
 
 

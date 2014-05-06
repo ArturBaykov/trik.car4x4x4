@@ -225,3 +225,75 @@ void CarPlatform::SetCar4x4RightMode(int ugol)
     return;
 }
 
+
+void CarPlatform::SetTornadoTopMode()
+{
+    wheelFrontLeft.WheelSetTornadoTopMode();
+    wheelFrontRight.WheelSetTornadoTopMode();
+    wheelBackLeft.WheelSetTornadoTopMode();
+    wheelBackRight.WheelSetTornadoTopMode();
+
+    CurrentCarMode = cmTornadoTopMode;
+    return;
+}
+
+void CarPlatform::SetTornadoBottomMode()
+{
+    wheelFrontLeft.WheelSetTornadoBottomMode();
+    wheelFrontRight.WheelSetTornadoBottomMode();
+    wheelBackLeft.WheelSetTornadoBottomMode();
+    wheelBackRight.WheelSetTornadoBottomMode();
+
+    CurrentCarMode = cmTornadoBottomMode;
+    return;
+}
+
+void CarPlatform::GoClockTornadoTop(int power)
+{
+    if (CurrentCarMode == cmTornadoTopMode)
+    {
+        wheelFrontLeft.WheelGoClockWise(power/10);
+        wheelFrontRight.WheelGoClockWise(power/10);
+        wheelBackLeft.WheelGoClockWise(power);
+        wheelBackRight.WheelGoClockWise(power);
+    }
+    return;
+}
+
+void CarPlatform::GoAntiClocktTornadoTop(int power)
+{
+    if (CurrentCarMode == cmTornadoTopMode)
+    {
+        wheelFrontLeft.WheelGoAntiClockWise(power/10);
+        wheelFrontRight.WheelGoAntiClockWise(power/10);
+        wheelBackLeft.WheelGoAntiClockWise(power);
+        wheelBackRight.WheelGoAntiClockWise(power);
+    }
+    return;
+}
+
+void CarPlatform::GoAntiClockTornadoBottom(int power)
+{
+    if (CurrentCarMode == cmTornadoBottomMode)
+    {
+        wheelFrontLeft.WheelGoAntiClockWise(power);
+        wheelFrontRight.WheelGoAntiClockWise(power);
+        wheelBackLeft.WheelGoAntiClockWise(power/10);
+        wheelBackRight.WheelGoAntiClockWise(power/10);
+    }
+    return;
+}
+
+void CarPlatform::GoClockTornadoBottom(int power)
+{
+    if (CurrentCarMode == cmTornadoBottomMode)
+    {
+        wheelFrontLeft.WheelGoClockWise(power);
+        wheelFrontRight.WheelGoClockWise(power);
+        wheelBackLeft.WheelGoClockWise(power/10);
+        wheelBackRight.WheelGoClockWise(power/10);
+    }
+    return;
+}
+
+
