@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     Brick localbrick(*(app.thread()), "./");
-    CarPlatform car(localbrick);
+    //CarPlatform car(localbrick);
     GamePadRobot game(localbrick, car);
-    //Linetracer linetracer(car);
+    Linetracer linetracer(car);
     QTextStream streamIn(stdin);
 
 
